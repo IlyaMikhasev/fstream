@@ -2,14 +2,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <conio.h>
+#include "windows.h"
 void fileInsert(std::string way, int pos, std::string str);
+const int takt = 100;
+int timer = 0;//отслеживает прошедшее время
 int main() {
 	setlocale(LC_ALL, "Russian");
 	int n;
 	std::string path = "file.txt";
 	std::fstream file;
 	//класс fstream
-	/*
+	
 	file.open(path,std::ios::app | std::ios::in);
 	if (file.is_open()) {
 		std::cout << "file opened\n";
@@ -29,17 +33,18 @@ int main() {
 		std::cout << "Error opened file!\n";
 
 	file.close();
-	*/
+	
 	//задание. Запись в файл
-	/*
+	
 	std::cout << "Введите строку: ";
 	std::string str;
 	getline(std::cin, str);
 	std::cout << "Введите позицию : ";
 	std::cin >> n;
 	fileInsert(path,n,str);
-	*/
+	
 	//Задача 1. date
+	
 	std::ifstream in;
 	in.open("date.txt");
 	if (in.is_open()) {
@@ -56,7 +61,30 @@ int main() {
 	else
 		std::cout << "Error opened file!\n";
 	in.close();
+	
+	//нажатие клавиш
+	char key;
+	while (true) {
+		if (_kbhit()) {//kbhit - key board hit клавиатура нажата
+			key = _getch();
+			switch (key) {
+			case 'A':case 'a':std::cout << "LEFT\n"; break;
+			case 'D':case 'd':std::cout << "RIGTH\n"; break;
+			}
+		}
+		Sleep(takt);
+		timer += takt;
+		if (timer >= 1000) {
+			std::cout << ".\n";
+			timer = 0;
+		
+		}
 
+	}
+
+	std::cout << "You is enter  " << key << std::endl;
+	
+	
 	return 0;
 }
 //запись строки в файл
